@@ -105,9 +105,10 @@ class Data:
         wb.save(filename)
     
     def displayAll(self):
+        strs=""
         for index in self.db.keys():
-            print(self.db[index])
-        return 
+            strs+='\n'+self.db[index].__str__()
+        return strs
     
     def getPerson(self,idKey):
         p=self.db[idKey]
@@ -133,11 +134,13 @@ class Data:
     def __del__(self):
         self.db.close()
 
-d=Data()
-#d.readXlsx("02.xlsx",6,167,4,3,5,[x for x in range(11,29)],[x for x in range(29,33)],8,9)
-d.updatePersonScore('2014141211074','m',100)
-d.updatePersonScore('2014141211074','w1',100)
-d.updatePersonScore('2014141211074','t1',100)
-print(d.getPerson('2014141211074'))
-d.writeXlsx("backup.xlsx")
+
+if __name__=="__main__":
+    d=Data()
+    #d.readXlsx("02.xlsx",6,167,4,3,5,[x for x in range(11,29)],[x for x in range(29,33)],8,9)
+    d.updatePersonScore('2014141211074','m',100)
+    d.updatePersonScore('2014141211074','w1',100)
+    d.updatePersonScore('2014141211074','t1',100)
+    print(d.getPerson('2014141211074'))
+    d.writeXlsx("backup.xlsx")
 
