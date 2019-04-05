@@ -33,9 +33,32 @@ class Data:
             self.rowBegin=obj[1]
             self.rowEnd=obj[2]
             self.columnIndex=list(obj[3:])
+            self.validScoresIndex=["w%d" % (x-self.columnIndex[3][0]+1) for x in self.columnIndex[3]]
+            self.validScoresIndex.extend(["t%d" % (x-self.columnIndex[4][0]+1) for x in self.columnIndex[4]])
+            self.validScoresIndex.extend(["m","f"])
+
     
     def addPerson(self,person):
         self.db[person.idkey]=person
+    
+    def readXlsxFromString(self,s):
+        import ast
+        if len(s) < 10:
+            return False
+        filename=s[0]
+        rowBegin=int(s[1])
+        rowEnd=int(s[2])
+        name=int(s[3])
+        idkey=int(s[4])
+        classes=int(s[5])
+        # safely evaluate to list
+        weekScores=ast.literal_eval(s[6])
+        testScores=ast.literal_eval(s[7])
+        mScores=int(s[8])
+        fScores=int(s[9])
+        self.readXlsx(filename,rowBegin,rowEnd,name,idkey,classes,weekScores,testScores,mScores,fScores)
+        return True
+
     
     def readXlsx(self,filename,rowBegin,rowEnd,name,idkey,classes,weekScores,testScores,mScores,fScores):
         '''
@@ -78,7 +101,7 @@ class Data:
 
         self.save()
     
-    def writeXlsx(self,filename):
+    def writeXlsx(self,filename="backup.xlsx"):
         '''
         create a new file <filename>
         '''
@@ -133,14 +156,25 @@ class Data:
     
     def __del__(self):
         self.db.close()
+    
+    # wipe all things 
+    # see more in https://stackoverflow.com/questions/17341411/how-do-i-make-shelve-file-empty-in-python
+    def wipeAllData(self):
+        self.db.close()
+        self.db=shelve.open(self.dataFile,flag='n')
 
 
 if __name__=="__main__":
     d=Data()
     #d.readXlsx("02.xlsx",6,167,4,3,5,[x for x in range(11,29)],[x for x in range(29,33)],8,9)
-    d.updatePersonScore('2014141211074','m',100)
-    d.updatePersonScore('2014141211074','w1',100)
-    d.updatePersonScore('2014141211074','t1',100)
-    print(d.getPerson('2014141211074'))
-    d.writeXlsx("backup.xlsx")
-
+    # d.updatePersonScore('2014141211074','m',100)
+    # d.updatePersonScore('2014141211074','w1',100)
+    # d.updatePersonScore('2014141211074','t1',100)
+    # print(d.getPerson('2014141211074'))
+    # d.writeXlsx("backup.xlsx")
+    # d.wipeAllData()
+    # a=[key for key in d.db.keys() if "003" in key]
+    # print(a)
+    # for key in d.db.keys():
+    #     print(d.getPerson(key))
+    print(d.db["ExcelInit"])
