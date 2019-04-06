@@ -172,37 +172,32 @@ read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores
     def cleanAll(self):
         self.delete('1.0', END)
 
+class mainFrame:
+    def __init__(self,top):
+        self.d=Data()
 
-d = Data()
-# print(d.displayAll())
+        self.ent1=myEntry(top)
+        self.ent1.pack(fill=BOTH)
+        self.ent1.config(width=130)
+        self.ent1.focus()
+
+        self.ent1.var.trace_add("write", self.display)
+        self.ent1.bind('<Return>', self.docommand)
+
+        self.text=myDisplayText(top)
+        self.text.pack(fill=BOTH)
+        self.text.config(height=30)  
+    
+    def display(self,*argv):
+        self.text.dealInput(self.ent1, self.ent1.var, self.d)
+
+    def docommand(self,*argv):
+        command = self.ent1.var.get()
+        self.ent1.var.set('')
+        self.text.docommand(self.ent1, command, self.d)
 
 
 root = Tk()
 root.title("ScoreRecorder")
-
-ent1 = myEntry(root)
-ent1.pack(fill=BOTH)
-ent1.config(width=130)
-ent1.focus()
-
-text = myDisplayText(root)
-text.pack(fill=BOTH)
-text.config(height=30)
-
-
-def display(*argv):
-    text.dealInput(ent1, ent1.var, d)
-
-
-ent1.var.trace_add("write", display)
-
-
-def docommand(*argv):
-    command = ent1.var.get()
-    ent1.var.set('')
-    text.docommand(ent1, command, d)
-
-
-ent1.bind('<Return>', docommand)
-
+c=mainFrame(root)
 root.mainloop()
