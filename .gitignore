@@ -1,17 +1,6 @@
 # No need to track
 
-environment/Scripts/activate
-environment/Scripts/activate.bat
-environment/Scripts/Activate.ps1
-environment/Scripts/deactivate.bat
-environment/Scripts/easy_install-3.7.exe
-environment/Scripts/easy_install.exe
-environment/Scripts/pip.exe
-environment/Scripts/pip3.7.exe
-environment/Scripts/pip3.exe
-environment/Scripts/python.exe
-environment/Scripts/pythonw.exe
-environment/
+env/
 .vscode/
 
 *.xlsx
