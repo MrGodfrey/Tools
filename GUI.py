@@ -1,5 +1,5 @@
 from ScoreRecorder import PersonRecord,Data
-from tkinter import *
+from tkinter import Entry,Text,StringVar,Tk,END,BOTH
 
 class myEntry(Entry):
     def __init__(self,parent=None,**config):
@@ -65,7 +65,7 @@ class myDisplayText(Text):
             d.save()
     
     def updateData(self,com,d):
-        if len(com)==1:
+        if len(com)==1 or com[1]=="":
             value='B'
             d.updatePersonScore(com[0],self.scoreIndex,'B')
         else:
@@ -85,26 +85,32 @@ class myDisplayText(Text):
         self.cleanAll()
         s=var.get()
         if len(s) and s[0]=='!':
-            self.insert('1.0',"Command Mode\n---------------\n")
+            self.insert('1.0',"Status:\n")
             commandString='''
+
+Command Mode
+-------------------------------------
 set <weeks>         set which weeks you want to update   
 
 show -a             display all person data.
 
 show <personKey>    display one person.
 
+write <fileName>    write data to <fileName>
+
+q                   save and quit.
+
+Dangerious Zone
+-------------------------------------
 read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores fScores
                     read data from <fileName>. Notice that weekScores and testScores is list.
                     This command will create backup.xlsx file to save current data, and then 
                     clean all data.
                     eg: 02.xlsx 6 167 4 3 5 [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28] [29,30,31,32] 8 9
-                    Caution! It will take a lot of time.
-
-write <fileName>    write data to <fileName>
-
-q                   save and quit.
+                    CAUTION! It will take a lot of time. and It will wipe all data nomatter
+                    success or not
             '''
-            commandString+="\n Current weeks is %s" % self.scoreIndex
+            commandString="Current weeks is %s" % self.scoreIndex + commandString
             self.insert(END,commandString)
 
         # Guess person's ID
@@ -151,6 +157,7 @@ ent1.focus()
 
 text=myDisplayText(root)
 text.pack(fill=BOTH)
+text.config(height=30)
 
 def display(*argv):
     text.dealInput(ent1,ent1.var,d)

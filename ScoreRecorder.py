@@ -41,6 +41,7 @@ class Data:
     def addPerson(self,person):
         self.db[person.idkey]=person
     
+    
     def readXlsxFromString(self,s):
         import ast
         if len(s) < 10:
