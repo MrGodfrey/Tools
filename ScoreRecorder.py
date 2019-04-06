@@ -19,9 +19,30 @@ class PersonRecord:
         a new data
         '''
         self.scores[key] = value
+    
+    def getStrFormat(self):
+        str="%s\t%s\t%s\n" % ("name","idkey","class")
+        n=1
+        for key in self.scores.keys():
+            str+="%s\t" % key
+            if n % 6 ==0:
+                str+="\n"
+            n+=1
+        if str[-1]=='\n':
+            str=str[0:-1]
+        return str
 
     def __str__(self):
-        return "%s\t%s\t\n%s" % (self.idkey, self.name, self.scores)
+        str="%s\t%s\t%s\n" % (self.name,self.idkey,self.classes)
+        n=1
+        for key in self.scores.keys():
+            str+="%5s: %s\t" % (key,self.scores[key])
+            if n % 6 ==0:
+                str+="\n"
+            n+=1
+        if str[-1]=='\n':
+            str=str[0:-1]
+        return str
 
 class Data:
     def __init__(self):
@@ -132,7 +153,9 @@ class Data:
     def displayAll(self):
         strs=""
         for index in self.db.keys():
-            strs+='\n'+self.db[index].__str__()
+            if index == 'ExcelInit':
+                continue
+            strs+=self.db[index].__str__()+'\n\n'
         return strs
     
     def getPerson(self,idKey):
@@ -179,4 +202,6 @@ if __name__=="__main__":
     # print(a)
     # for key in d.db.keys():
     #     print(d.getPerson(key))
-    print(d.db["ExcelInit"])
+    p=d.getPerson('2015141223079')
+    print(p.getStrFormat())
+    print(p)
