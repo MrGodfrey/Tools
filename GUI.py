@@ -78,6 +78,8 @@ class myDisplayText(Text):
                 d.writeXlsx()
             else:
                 d.writeXlsx(com[1])
+            self.cleanAll()
+            self.insert('1.0', "Data saved!")
         if com[0] == "!read":
             self.readFromFile(ent, com, d)
 
