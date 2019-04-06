@@ -42,7 +42,7 @@ class Data:
         self.db[person.idkey]=person
     
     
-    def readXlsxFromString(self,s):
+    def readXlsxFromString(self,s,mutex):
         import ast
         if len(s) < 10:
             return False
@@ -58,6 +58,7 @@ class Data:
         mScores=int(s[8])
         fScores=int(s[9])
         self.readXlsx(filename,rowBegin,rowEnd,name,idkey,classes,weekScores,testScores,mScores,fScores)
+        mutex.acquire()
         return True
 
     
