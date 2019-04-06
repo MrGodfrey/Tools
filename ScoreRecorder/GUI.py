@@ -15,6 +15,7 @@ class myDisplayText(Text):
         Text.__init__(self, parent, **config)
         self.scoreIndex = "None"
         self.insert('1.0', "Use !set to set which week you want to update.")
+        
 
     def readFromFile(self, ent, com, d):
         import _thread as thread
@@ -47,8 +48,9 @@ class myDisplayText(Text):
         try:
             d.writeXlsx()
         except:
-            print("unable to write")
-            raise
+            self.cleanAll()
+            self.insert('1.0',"Unable to write to file. Delete Data.* and try again")
+            return
         d.wipeAllData()
         thread.start_new_thread(read, (com, d))
 
@@ -94,12 +96,12 @@ class myDisplayText(Text):
 
     def updateData(self, com, d):
         if len(com) == 1 or com[1] == "":
-            value = 'B'
-            d.updatePersonScore(com[0], self.scoreIndex, 'B')
+            value = 'A'
+            d.updatePersonScore(com[0], self.scoreIndex, 'A')
         else:
             value = com[1]
             if com[1][0] in 'ABCD':
-                d.updatePersonScore(com[0], self.scoreIndex, value)
+                d.updatePersonScore(com[0], self.scoreIndex, value[0:2])
             elif value.isdigit() and -1 < int(value) < 101:
                 d.updatePersonScore(com[0], self.scoreIndex, value)
             else:
@@ -166,8 +168,16 @@ read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores
             if len(data) == 1:
                 self.cleanAll()
                 self.insert("1.0", "\t".join(
-                    (data[0], d.getPerson(data[0]).name))+"\nUse Control_L to complete.")
-                ent1.bind('<Control_L>',(lambda *argv:ent1.delete(0, END) or ent1.insert(0, data[0])))                   
+                    (data[0], d.getPerson(data[0]).name))+"\nUse Tab to complete.")
+                
+                def wordCompete(event):
+                    ent1.delete(0, END)
+                    ent1.insert(0, data[0])
+                    return "break"
+                
+                ent1.bind('<Tab>',(lambda e: wordCompete(e))) 
+            
+                  
 
     def cleanAll(self):
         self.delete('1.0', END)
@@ -186,7 +196,19 @@ class mainFrame:
 
         self.text=myDisplayText(top)
         self.text.pack(fill=BOTH)
-        self.text.config(height=30)  
+        self.text.config(height=30) 
+        # don't take focus, you can't use tab to get here.
+        self.text.config(takefocus=False)
+        # don't do anything
+        self.text.bind("<Key>",lambda e:self.__textEvent(e))
+    
+    def __textEvent(self,event):
+        # Control's mask is 0X0004
+        if(event.state==0x0004 and event.keysym=='c' ):
+            return
+        else:
+        # can't understand why
+            return "break"
     
     def display(self,*argv):
         self.text.dealInput(self.ent1, self.ent1.var, self.d)
