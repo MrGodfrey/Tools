@@ -128,7 +128,7 @@ write <fileName>    write data to <fileName>
 
 q                   save and quit.
 
-Dangerious Zone
+Dangerous Zone
 -------------------------------------
 read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores fScores
                     read data from <fileName>. Notice that weekScores and testScores is list.
@@ -164,7 +164,8 @@ read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores
             if len(data) == 1:
                 self.cleanAll()
                 self.insert("1.0", "\t".join(
-                    (data[0], d.getPerson(data[0]).name)))
+                    (data[0], d.getPerson(data[0]).name))+"\nUse Control_L to complete.")
+                ent1.bind('<Control_L>',(lambda *argv:ent1.delete(0, END) or ent1.insert(0, data[0])))                   
 
     def cleanAll(self):
         self.delete('1.0', END)
