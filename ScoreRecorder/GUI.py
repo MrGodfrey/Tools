@@ -15,6 +15,9 @@ class myDisplayText(Text):
         Text.__init__(self, parent, **config)
         self.scoreIndex = "None"
         self.insert('1.0', "Use !set to set which week you want to update.")
+        self.UPLOAD_URL="http://118.25.210.74:876/upload"
+        # local http://127.0.0.1:5000/upload
+        # service http://118.25.210.74:876/upload
         
 
     def readFromFile(self, ent, com, d):
@@ -55,6 +58,9 @@ class myDisplayText(Text):
         thread.start_new_thread(read, (com, d))
 
     def docommand(self, ent, commands, d):
+        '''
+        deal with command. When add new command, remember to check this place.
+        '''
         com = commands.split(' ')
         if com[0] == "!show":
             if com[1] == '-a':
@@ -84,6 +90,11 @@ class myDisplayText(Text):
             self.insert('1.0', "Data saved!")
         if com[0] == "!read":
             self.readFromFile(ent, com, d)
+        if com[0] == "!upload":
+            if len(com)>1 and com[1]:
+                self.uploadURL(com[1])
+            else:
+                self.uploadURL(self.UPLOAD_URL)
 
         if com[0] in d.db.keys():
             try:
@@ -93,6 +104,21 @@ class myDisplayText(Text):
                 self.insert(
                     '1.0', "\n Current weeks is %s. Remember to set weeks before you start upload." % self.scoreIndex)
             d.save()
+    
+    def uploadURL(self,s):
+        import requests
+
+        files=[{'file':open('Data.dat','rb')},\
+            {'file':open('Data.bak','rb')},\
+                {'file':open('Data.dir','rb')}]
+        self.cleanAll()
+        for f in files:
+            r=requests.post(s,files=f)
+            if 'success' in r.text:
+                self.insert(END,"\nUpload %s success." % f['file'].name)
+            else:
+                self.insert(END,"\nUpload %s failure." % f['file'].name)
+
 
     def updateData(self, com, d):
         if len(com) == 1 or com[1] == "":
@@ -129,6 +155,8 @@ show -a             display all person data.
 show <personKey>    display one person.
 
 write <fileName>    write data to <fileName>
+
+upload <url>        upload data to url
 
 q                   save and quit.
 
