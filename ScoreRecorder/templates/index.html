@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<title>复变函数成绩查询</title>
+<link rel="stylesheet" href="..\static\style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+
+<body> 
+    <h1>复变函数成绩查询</h1>
+    
+    <form action="" method="POST">
+        <p><label>学号: </label><input type="text" name="userID"></p>
+        <p><label>姓名: </label><input type="text" name="userName"></p>
+        <p><input type="submit" value="提交"></p>
+    </form>
+
+    {% for message in get_flashed_messages() %}
+    <p class="Flask-flash">
+        {{ message }}
+    </p>
+    {% endfor %}
+    
+    
+    {% if person %}
+        <hr>
+        <p>{{person.name}}的成绩如下:</p>
+        <ul>
+            {% for key,value in scores.items() %}
+            <li> {{key}}: {{value}} </li>
+            {% endfor %}
+        </ul>
+        
+    {% endif %}
+    
+
+    <p class="Sign">
+        Wang Yu<br>
+        <a class="Sign" href="https://github.com/MrGodfrey">Github</a>
+    </p>
+</body>

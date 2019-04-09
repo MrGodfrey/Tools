@@ -45,8 +45,8 @@ class PersonRecord:
         return str
 
 class Data:
-    def __init__(self):
-        self.dataFile='Data'
+    def __init__(self,dataName="Data"):
+        self.dataFile=dataName
         self.db=shelve.open(self.dataFile)
         if 'ExcelInit' in self.db.keys():
             obj=self.db['ExcelInit']
@@ -203,5 +203,6 @@ if __name__=="__main__":
     # for key in d.db.keys():
     #     print(d.getPerson(key))
     p=d.getPerson('2015141223079')
+    # name =张嘉珊
     print(p.getStrFormat())
     print(p)
