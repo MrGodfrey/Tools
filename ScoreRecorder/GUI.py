@@ -190,6 +190,9 @@ read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores
                     index = int(test[1])
                     ent1.delete(0, END)
                     ent1.insert(0, data[index])
+                    def br(e):
+                        return "break"
+                    ent1.bind('<Tab>',(lambda e: br(e))) 
                     self.cleanAll()
                     self.insert("1.0", "\t".join(
                         (data[index], d.getPerson(data[index]).name)))
