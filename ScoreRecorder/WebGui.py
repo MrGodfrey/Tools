@@ -38,7 +38,7 @@ def index():
             if p.name != userName:
                 raise KeyError
         except KeyError:
-            flash("错误的学号或姓名.")
+            flash("错误的学号或姓名")
         else:
             return render_template('index.html',person=p,scores=showScores(p))
         
