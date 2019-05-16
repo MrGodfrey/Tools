@@ -18,14 +18,16 @@ def showScores(p):
     for key in p.scores:
         if p.scores[key]!=None:
             if key[0]=='w':
-                scores['第%s周' % key[1]]=p.scores[key]
+                scores['第%s周' % key[1:]]=p.scores[key]
             if key[0]=='t':
-                scores['小测%s' % key[1]]=p.scores[key]
+                scores['小测%s' % key[1:]]=p.scores[key]
             if key[0]=='m':
                 scores['期中  ']=p.scores[key]
             if key[0]=='f':
                 scores['期末  ']=p.scores[key]
     return scores
+
+# TODO 把改动上传到服务器
 
 # Need to explicitly specify the method
 @app.route('/', methods=['GET','POST'])
