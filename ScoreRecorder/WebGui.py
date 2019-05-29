@@ -27,7 +27,6 @@ def showScores(p):
                 scores['期末  ']=p.scores[key]
     return scores
 
-# TODO 把改动上传到服务器
 
 # Need to explicitly specify the method
 @app.route('/', methods=['GET','POST'])

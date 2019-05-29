@@ -166,7 +166,7 @@ read <fileName> rowBegin rowEnd name idkey classes weekScores testScores mScores
                     read data from <fileName>. Notice that weekScores and testScores is list.
                     This command will create backup.xlsx file to save current data, and then 
                     clean all data.
-                    eg: 02.xlsx 6 167 4 3 5 [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28] [29,30,31,32] 8 9
+                    eg: 02.xlsx 6 168 4 3 5 [11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28] [29,30,31,32,33,34] 8 9
                     CAUTION! It will take a lot of time. and It will wipe all data nomatter
                     success or not
             '''
