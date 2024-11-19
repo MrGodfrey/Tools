@@ -107,7 +107,7 @@ class Data:
             pidkey=ws.cell(i,idkey).value
             pidkey=pidkey.split(' ',1)[0]
             pclasses=ws.cell(i,classes).value
-            pclasses=pclasses.split(' ',1)[0]
+            # pclasses=pclasses.split(' ',1)[0]
             person=PersonRecord(pname,pidkey,pclasses)
             n=0
             for j in weekScores:
@@ -191,18 +191,24 @@ class Data:
 
 if __name__=="__main__":
     d=Data()
-    #d.readXlsx("02.xlsx",6,167,4,3,5,[x for x in range(11,29)],[x for x in range(29,33)],8,9)
+    d.readXlsx("backup.xlsx",6,7,4,3,5,[x for x in range(11,29)],[x for x in range(29,33)],8,9)
+
+    # d.displayAll()
     # d.updatePersonScore('2014141211074','m',100)
     # d.updatePersonScore('2014141211074','w1',100)
     # d.updatePersonScore('2014141211074','t1',100)
-    # print(d.getPerson('2014141211074'))
+    print(d.getPerson('2014141213074'))
     # d.writeXlsx("backup.xlsx")
     # d.wipeAllData()
     # a=[key for key in d.db.keys() if "003" in key]
     # print(a)
     # for key in d.db.keys():
     #     print(d.getPerson(key))
-    p=d.getPerson('2015141223079')
-    # name =张嘉珊
-    print(p.getStrFormat())
-    print(p)
+    # p=d.getPerson('2015141223079')
+    # # name =张嘉珊
+    # print(p.getStrFormat())
+    # print(p)
+
+# 测试方法：
+# python ScoreRecorder.py
+# python WebGui.py       

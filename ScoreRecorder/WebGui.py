@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,flash
-from ScoreRecorder import Data
+from ScoreRecorder import *
 
 # 上传文件用
 import os
